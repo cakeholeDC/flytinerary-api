@@ -10,22 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_26_020711) do
+ActiveRecord::Schema.define(version: 2020_02_26_135503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "events", force: :cascade do |t|
     t.string "event_type"
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.text "description"
+    t.datetime "start_datetime"
+    t.datetime "end_datetime"
+    t.string "start_location"
+    t.string "end_location"
+    t.string "company_agency"
+    t.string "reservation_number"
+    t.text "notes"
     t.bigint "trip_id", null: false
-    t.bigint "traveler_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["traveler_id"], name: "index_events_on_traveler_id"
     t.index ["trip_id"], name: "index_events_on_trip_id"
+  end
+
+  create_table "traveler_events", force: :cascade do |t|
+    t.bigint "traveler_id", null: false
+    t.bigint "event_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["event_id"], name: "index_traveler_events_on_event_id"
+    t.index ["traveler_id"], name: "index_traveler_events_on_traveler_id"
+  end
+
+  create_table "traveler_trips", force: :cascade do |t|
+    t.bigint "traveler_id", null: false
+    t.bigint "trip_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["traveler_id"], name: "index_traveler_trips_on_traveler_id"
+    t.index ["trip_id"], name: "index_traveler_trips_on_trip_id"
   end
 
   create_table "travelers", force: :cascade do |t|
@@ -39,8 +59,8 @@ ActiveRecord::Schema.define(version: 2020_02_26_020711) do
   create_table "trips", force: :cascade do |t|
     t.string "nickname"
     t.string "destination"
-    t.datetime "start_date"
-    t.datetime "end_date"
+    t.datetime "start_datetime"
+    t.datetime "end_datetime"
     t.bigint "traveler_id", null: false
     t.string "image"
     t.datetime "created_at", precision: 6, null: false
@@ -48,7 +68,10 @@ ActiveRecord::Schema.define(version: 2020_02_26_020711) do
     t.index ["traveler_id"], name: "index_trips_on_traveler_id"
   end
 
-  add_foreign_key "events", "travelers"
   add_foreign_key "events", "trips"
+  add_foreign_key "traveler_events", "events"
+  add_foreign_key "traveler_events", "travelers"
+  add_foreign_key "traveler_trips", "travelers"
+  add_foreign_key "traveler_trips", "trips"
   add_foreign_key "trips", "travelers"
 end

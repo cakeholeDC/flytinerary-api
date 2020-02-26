@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :traveler_events
+  resources :traveler_trips
   resources :events
   resources :trips
   resources :travelers

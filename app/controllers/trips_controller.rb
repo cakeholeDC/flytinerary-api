@@ -1,91 +1,55 @@
 class TripsController < ApplicationController
 
 	def index
-		trips = Trip.all.sort_by { |trip| trip.start_date }
-		render json: trips.to_json(
-				except: [:traveler_id, :updated_at, :created_at],
-				include: [
-					organizer: { only: :name} ,
-					# travelers: {except: [:created_at, :updated_at]},
-					attendees: {except: [:created_at, :updated_at, :id]},
-					events: {
-						include: [traveler_name: { only: :name}],
-						except: [:created_at, :updated_at, :traveler_id, :trip_id]
-					}
-				]
-			)
+		trips = Trip.all.sort_by { |trip| trip.start_datetime }
+		# render json: trips.to_json(
+		# 		except: [:traveler_id, :updated_at, :created_at],
+		# 		include: [
+		# 			organizer: { only: :name} ,
+		# 			attendees: {except: [:created_at, :updated_at]},
+		# 			event_timeline: { except: [:created_at, :updated_at] } 
+		# 		]
+		# 	)
+		serialize_data(trips)
 	end
 	
 	def show
 		trip = Trip.find(params[:id])
-		render json: trip.to_json(
-				except: [:traveler_id, :updated_at, :created_at],
-				include: [
-					organizer: { only: :name} ,
-					# travelers: {except: [:created_at, :updated_at]},
-					attendees: {except: [:created_at, :updated_at, :id]},
-					event_timeline: {
-						include: [traveler_name: { only: :name}],
-						except: [:created_at, :updated_at, :traveler_id, :trip_id]
-					}
-				]
-			)
+		serialize_data(trip)
 	end
 
 	def create
 
-		start_date = Trip.parseDateString(params[:start_date])
+		start_datetime = Trip.parseDateString(params[:start_datetime])
 		end_date = Trip.parseDateString(params[:end_date])
 
-		newTrip = Trip.create(
+		trip = Trip.create(
 			nickname: params[:nickname], 
 			destination: params[:destination], 
-			start_date: Time.new(start_date[0], start_date[1], start_date[2]), 
+			start_datetime: Time.new(start_datetime[0], start_datetime[1], start_datetime[2]), 
 			end_date: Time.new(end_date[0], end_date[1], end_date[2]), 
 			traveler_id: params[:traveler_id], 
 			image: params[:image])
 
-		render json: newTrip.to_json(
-				except: [:traveler_id, :updated_at, :created_at],
-				include: [
-					organizer: { only: :name} ,
-					# travelers: {except: [:created_at, :updated_at]},
-					attendees: {except: [:created_at, :updated_at, :id]},
-					event_timeline: {
-						include: [traveler_name: { only: :name}],
-						except: [:created_at, :updated_at, :traveler_id, :trip_id]
-					}
-				]
-			)
+		serialize_data(trip)
 	end
 
 	def update
 		trip = Trip.find(params[:id])
 
-		start_date = Trip.parseDateString(params[:start_date])
+		start_datetime = Trip.parseDateString(params[:start_datetime])
 		end_date = Trip.parseDateString(params[:end_date])
 
 		trip.nickname = params[:nickname]
 		trip.destination = params[:destination]
-		trip.start_date = Time.new(start_date[0], start_date[1], start_date[2]) 
+		trip.start_datetime = Time.new(start_datetime[0], start_datetime[1], start_datetime[2]) 
 		trip.end_date = Time.new(end_date[0], end_date[1], end_date[2])
 		trip.traveler_id = params[:traveler_id]
 		trip.image = params[:image]
 
 		trip.save
 
-		render json: trip.to_json(
-				except: [:traveler_id, :updated_at, :created_at],
-				include: [
-					organizer: { only: :name} ,
-					# travelers: {except: [:created_at, :updated_at]},
-					attendees: {except: [:created_at, :updated_at, :id]},
-					event_timeline: {
-						include: [traveler_name: { only: :name}],
-						except: [:created_at, :updated_at, :traveler_id, :trip_id]
-					}
-				]
-			)
+		serialize_data(trip)
 			
 	end
 
@@ -94,5 +58,18 @@ class TripsController < ApplicationController
 		Trip.destroy(tripID)
 	end
 
+
+	private
+
+	def serialize_data(data)
+		render json: data.to_json(
+			except: [:traveler_id, :updated_at, :created_at],
+			include: [
+				organizer: { only: :name} ,
+				attendees: {except: [:created_at, :updated_at]},
+				event_timeline: { except: [:created_at, :updated_at, :trip_id] } 
+			]
+		)
+	end
 
 end

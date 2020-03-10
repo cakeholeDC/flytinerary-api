@@ -65,7 +65,7 @@ class TripsController < ApplicationController
 		render json: data.to_json(
 			except: [:traveler_id, :updated_at, :created_at],
 			include: [
-				organizer: { only: :name} ,
+				organizer: {except: [:created_at, :updated_at, :age, :gender]} ,
 				attendees: {except: [:created_at, :updated_at]},
 				event_timeline: { except: [:created_at, :updated_at, :trip_id] } 
 			]

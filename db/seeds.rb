@@ -24,6 +24,8 @@ christmas = Trip.create!(
 	organizer: sulli, 
 	image: "https://www.downtownraleigh.org/_files/images/sunset_raleighskyline.jpg")
 
+TravelerTrip.create(traveler: kyle, trip: christmas)
+
 ski2020 = Trip.create!(
 	nickname: "Denver 2020", 
 	destination: "Denver, Colorado", 
@@ -32,6 +34,8 @@ ski2020 = Trip.create!(
 	organizer: kyle, 
 	image: "https://www.colorado.com/sites/default/files/styles/1000x685/public/breckskitown.jpg?itok=wI8d67RA")
 
+TravelerTrip.create(traveler: kyle, trip: ski2020)
+
 paris = Trip.create!(
 	nickname: "A Romantic Trip to Paris", 
 	destination: "Paris, France", 
@@ -39,6 +43,10 @@ paris = Trip.create!(
 	end_datetime: Time.new(2020, 12, 31), 
 	organizer: kyle, 
 	image: "https://d2mpqlmtgl1znu.cloudfront.net/AcuCustom/Sitename/DAM/020/Paris_AdobeStock_264549883_1.jpg")
+
+TravelerTrip.create(traveler: kyle, trip: paris)
+
+
 
 # CREATE EVENTS
 flight1 = Event.create!(
@@ -54,7 +62,6 @@ flight1 = Event.create!(
 					)
 
 TravelerEvent.create(traveler: kyle, event: flight1)
-TravelerTrip.create(traveler: kyle, trip: ski2020)
 
 flight2 = Event.create!(
 					trip: ski2020,

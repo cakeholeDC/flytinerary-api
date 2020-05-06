@@ -5,14 +5,14 @@ Trip.destroy_all
 Traveler.destroy_all
 
 # CREATE TRAVELLERS
-kyle = Traveler.create!(username: "cakehole", first_name: "Kyle", last_name: "Cole", age: 31, gender: "M")
-sulli = Traveler.create!(username: "sullivie", first_name: "Sulli", last_name: "Norris", age: 30, gender: "F")
-dave = Traveler.create!(username: "dc", first_name: "Dave", last_name: "Conetta", age: 31, gender: "M")
-david = Traveler.create!(username: "dtrain", first_name: "David", last_name: "Braun", age: 31, gender: "M")
-perry = Traveler.create!(username: "pearbear", first_name: "Perry", last_name: "Mosbacher", age: 30, gender: "M")
-kyle2 = Traveler.create!(username: "spanky", first_name: "Kyle", last_name: "Rowe", age: 31, gender: "M")
-scott = Traveler.create!(username: "scoots", first_name: "Scott", last_name: "Tucker", age: 29, gender: "M")
-tom = Traveler.create!(username: "tdubs", first_name: "Tom", last_name: "White", age: 32, gender: "M")
+kyle = Traveler.create!(username: "cakehole", first_name: "Kyle", last_name: "Cole", age: 31, password: "password")
+sulli = Traveler.create!(username: "sullivie", first_name: "Sulli", last_name: "Norris", age: 30, password: "password")
+dave = Traveler.create!(username: "dc", first_name: "Dave", last_name: "Conetta", age: 31, password: "password")
+david = Traveler.create!(username: "dtrain", first_name: "David", last_name: "Braun", age: 31, password: "password")
+perry = Traveler.create!(username: "pearbear", first_name: "Perry", last_name: "Mosbacher", age: 30, password: "password")
+kyle2 = Traveler.create!(username: "spanky", first_name: "Kyle", last_name: "Rowe", age: 31, password: "password")
+scott = Traveler.create!(username: "scoots", first_name: "Scott", last_name: "Tucker", age: 29, password: "password")
+tom = Traveler.create!(username: "tdubs", first_name: "Tom", last_name: "White", age: 32, password: "password")
 
 
 # CREATE TRIPS

@@ -16,6 +16,15 @@ class TravelersController < ApplicationController
 			)
 	end
 
+	def trips 
+		traveler = Traveler.find(params[:id])
+		byebug
+		render json: traveler.trips.to_json(
+			except: [:updated_at, :created_at],
+			include: [:trips, :events] 
+			)
+	end
+
 	def resolveToken
         token = request.headers["Authentication"]
 

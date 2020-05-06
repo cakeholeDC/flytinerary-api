@@ -5,14 +5,14 @@ Trip.destroy_all
 Traveler.destroy_all
 
 # CREATE TRAVELLERS
-kyle = Traveler.create!(name: "Kyle Cole", age: 31, gender: "M")
-sulli = Traveler.create!(name: "Sulli Norris", age: 30, gender: "F")
-dave = Traveler.create!(name: "Dave Conetta", age: 31, gender: "M")
-david = Traveler.create!(name: "David Braun", age: 31, gender: "M")
-perry = Traveler.create!(name: "Perry Mosbacher", age: 30, gender: "M")
-kyle2 = Traveler.create!(name: "Kyle Rowe", age: 31, gender: "M")
-scott = Traveler.create!(name: "Scott Tucker", age: 29, gender: "M")
-tom = Traveler.create!(name: "Tom White", age: 32, gender: "M")
+kyle = Traveler.create!(username: "cakehole", first_name: "Kyle", last_name: "Cole", age: 31, gender: "M")
+sulli = Traveler.create!(username: "sullivie", first_name: "Sulli", last_name: "Norris", age: 30, gender: "F")
+dave = Traveler.create!(username: "dc", first_name: "Dave", last_name: "Conetta", age: 31, gender: "M")
+david = Traveler.create!(username: "dtrain", first_name: "David", last_name: "Braun", age: 31, gender: "M")
+perry = Traveler.create!(username: "pearbear", first_name: "Perry", last_name: "Mosbacher", age: 30, gender: "M")
+kyle2 = Traveler.create!(username: "spanky", first_name: "Kyle", last_name: "Rowe", age: 31, gender: "M")
+scott = Traveler.create!(username: "scoots", first_name: "Scott", last_name: "Tucker", age: 29, gender: "M")
+tom = Traveler.create!(username: "tdubs", first_name: "Tom", last_name: "White", age: 32, gender: "M")
 
 
 # CREATE TRIPS
@@ -45,6 +45,26 @@ paris = Trip.create!(
 	image: "https://d2mpqlmtgl1znu.cloudfront.net/AcuCustom/Sitename/DAM/020/Paris_AdobeStock_264549883_1.jpg")
 
 TravelerTrip.create(traveler: kyle, trip: paris)
+
+dc = Trip.create!(
+	nickname: "Summer in DC", 
+	destination: "Washington, DC", 
+	start_datetime: Time.new(2020, 6, 21), 
+	end_datetime: Time.new(2020, 9, 15), 
+	organizer: kyle, 
+	image: "https://www.earthmagazine.org/sites/earthmagazine.org/files/styles/full_width/public/2018-11/WashMallaerial_U.S.AirForcephotobyAirman1stClassPhilipBryant.png?itok=EmWOo1Y9")
+
+TravelerTrip.create(traveler: kyle, trip: dc)
+
+windham = Trip.create!(
+	nickname: "Lake Time", 
+	destination: "Windham NH", 
+	start_datetime: Time.new(2020, 7, 4), 
+	end_datetime: Time.new(2020, 7, 31), 
+	organizer: sulli, 
+	image: "https://cdn.onekindesign.com/wp-content/uploads/2016/12/Cozy-Lake-House-Pritchett-Dixon-01-1-Kindesign.jpg")
+
+TravelerTrip.create(traveler: sulli, trip: windham)
 
 
 

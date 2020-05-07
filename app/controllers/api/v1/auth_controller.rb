@@ -36,4 +36,15 @@ class Api::V1::AuthController < ApplicationController
 			
 		end
 	end
+
+	def resolveToken
+        token = request.headers["Authentication"]
+        payload = decode(token)
+        
+        user = Traveler.find(payload["traveler_id"])
+        render json: user.to_json(
+            except: [:password_digest, :updated_at, :created_at]
+        )
+    end
+    
 end

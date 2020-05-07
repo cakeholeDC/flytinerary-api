@@ -21,26 +21,17 @@ class TravelersController < ApplicationController
 		byebug
 		render json: traveler.trips.to_json(
 			except: [:updated_at, :created_at],
-			include: [:trips, :events] 
+			include: [organizer: { except: [:password_digest, :updated_at, :created_at] } ]
 			)
 	end
 
-	def resolveToken
-        token = request.headers["Authentication"]
-
-        payload = decode(token)
-
-        user = Traveler.find(payload["traveler_id"])
-        render json: user.to_json(
-            except: [:password_digest, :updated_at, :created_at]
-        )
-    end
-
 	def create
 		traveler = Traveler.create(
-			name: params[:name],
+			first_name: params[:first_name],
+			last_name: params[:last_name],
+			username:params[:username],
 			age: params[:age],
-			gender: params[:gender])
+			password: params[:password])
 
 		render json: traveler.to_json(
 			except: [:updated_at, :created_at]

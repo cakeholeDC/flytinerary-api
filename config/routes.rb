@@ -6,11 +6,12 @@ Rails.application.routes.draw do
   resources :travelers
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
-  get '/travelers/:id/trips', to: 'traveler#trips'
+  get '/travelers/:id/trips', to: 'travelers#trips'
 
   namespace :api do
     namespace :v1 do
       post '/login', to: 'auth#create'
+      get '/resolve', to: 'auth#resolveToken'
     end
   end
 end

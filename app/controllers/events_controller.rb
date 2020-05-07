@@ -3,15 +3,8 @@ class EventsController < ApplicationController
 	def index
 		events = Event.all
 		render json: events.to_json(
-				except: [:traveler_id, :updated_at, :created_at],
-
-				include: [
-					traveler_name: { only: :name},
-					trip: {
-						except: [:traveler_id, :updated_at, :created_at],
-						include: [organizer: { only: :name}]
-						}
-				]
+				except: [:updated_at, :created_at, :trip_id],
+				include: [travelers: { except: [:password_digest, :updated_at, :created_at, :age, :username] }]
 			)
 	end
 
@@ -29,7 +22,6 @@ class EventsController < ApplicationController
 						}
 				]
 			)
-		
 	end
 
 	def update
@@ -55,7 +47,6 @@ class EventsController < ApplicationController
 						}
 				]
 			)
-		
 	end
 
 	def create
@@ -83,7 +74,6 @@ class EventsController < ApplicationController
 						}
 				]
 			)
-
 	end
 
 	def destroy

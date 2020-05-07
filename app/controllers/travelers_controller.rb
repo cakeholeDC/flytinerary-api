@@ -18,10 +18,14 @@ class TravelersController < ApplicationController
 
 	def trips 
 		traveler = Traveler.find(params[:id])
-		byebug
 		render json: traveler.trips.to_json(
-			except: [:updated_at, :created_at],
-			include: [organizer: { except: [:password_digest, :updated_at, :created_at] } ]
+			except: [:updated_at, :created_at, :traveler_id],
+			include: [
+				organizer: { except: [:password_digest, :updated_at, :created_at, :age, :username] },
+				event_timeline: { 
+					except: [:updated_at, :created_at, :trip_id],
+					include: [travelers: { except: [:password_digest, :updated_at, :created_at, :age, :username] }] }
+			 ]
 			)
 	end
 

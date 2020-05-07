@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_26_135503) do
+ActiveRecord::Schema.define(version: 2020_05_07_190928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,10 @@ ActiveRecord::Schema.define(version: 2020_02_26_135503) do
     t.bigint "trip_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "start_latitude", precision: 10, scale: 6
+    t.decimal "start_longitude", precision: 10, scale: 6
+    t.decimal "end_latitude", precision: 10, scale: 6
+    t.decimal "end_longitude", precision: 10, scale: 6
     t.index ["trip_id"], name: "index_events_on_trip_id"
   end
 
@@ -67,6 +71,8 @@ ActiveRecord::Schema.define(version: 2020_02_26_135503) do
     t.string "image"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
     t.index ["traveler_id"], name: "index_trips_on_traveler_id"
   end
 

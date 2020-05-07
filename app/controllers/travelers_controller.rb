@@ -18,7 +18,8 @@ class TravelersController < ApplicationController
 
 	def trips 
 		traveler = Traveler.find(params[:id])
-		render json: traveler.trips.to_json(
+		trips = traveler.trips.sort_by { |event| event.start_datetime }
+		render json: trips.to_json(
 			except: [:updated_at, :created_at, :traveler_id],
 			include: [
 				organizer: { except: [:password_digest, :updated_at, :created_at, :age] },

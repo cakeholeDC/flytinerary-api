@@ -14,12 +14,12 @@ class Trip < ApplicationRecord
 	end
 
 	def attendees
-		self.travelers.uniq
+		self.users.uniq
 	end
 
 	def event_timeline
 		self.events.sort_by do |event|
-			event.start_datetime
+			event.start
 		end
 	end
 end

@@ -1,7 +1,7 @@
 class TripsController < ApplicationController
 
 	def index
-		trips = Trip.all.sort_by { |trip| trip.start_datetime }
+		trips = Trip.all.sort_by { |trip| trip.start }
 		serialize_data(trips)
 	end
 	
@@ -57,8 +57,8 @@ class TripsController < ApplicationController
 		render json: data.to_json(
 			except: [:user_id, :updated_at, :created_at],
 			include: [
-				organizer: {except: [:created_at, :updated_at, :age, :gender]} ,
-				attendees: {except: [:created_at, :updated_at]},
+				organizer: {except: [:created_at, :updated_at, :password_digest]} ,
+				attendees: {except: [:created_at, :updated_at, :password_digest]},
 				event_timeline: { except: [:created_at, :updated_at, :trip_id] } 
 			]
 		)

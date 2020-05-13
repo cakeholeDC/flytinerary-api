@@ -1,32 +1,27 @@
-class UserController < ApplicationController
+class UsersController < ApplicationController
 
 	def index 
-		users = Users.all
-		render json: users.to_json(
-			except: [:updated_at, :created_at],
-			include: [:trips, :events] 
-			)
+		users = User.all
+		serialize_data(users)
 	end
 
 	def show 
 		user = User.find(params[:id])
-		render json: user.to_json(
-			except: [:updated_at, :created_at],
-			include: [:trips, :events] 
-			)
+		serialize_data(user)
 	end
 
 	def trips 
 		user = User.find(params[:id])
-		trips = user.trips.sort_by { |event| event.start_datetime }
+		trips = user.trips.sort_by { |event| event.start }
 		render json: trips.to_json(
 			except: [:updated_at, :created_at, :user_id],
 			include: [
-				organizer: { except: [:password_digest, :updated_at, :created_at, :age] },
+				organizer: { except: [:password_digest, :updated_at, :created_at] },
 				attendees: {except: [:created_at, :updated_at, :password_digest, :age]},
 				event_timeline: { 
 					except: [:updated_at, :created_at, :trip_id],
-					include: [users: { except: [:password_digest, :updated_at, :created_at, :age] }] }
+					include: [user: { except: [:password_digest, :updated_at, :created_at, :age] }] 
+				}
 			 ]
 			)
 	end
@@ -43,5 +38,14 @@ class UserController < ApplicationController
 		render json: user.to_json(
 			except: [:updated_at, :created_at]
 			)
+	end
+
+	private
+
+	def serialize_data(data)
+		render json: data.to_json(
+			except: [:updated_at, :created_at, :password_digest],
+			# include: [:trips, :events] 
+		)
 	end
 end

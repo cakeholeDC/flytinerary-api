@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_07_190928) do
+ActiveRecord::Schema.define(version: 2020_05_12_191834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,8 @@ ActiveRecord::Schema.define(version: 2020_05_07_190928) do
     t.decimal "start_longitude", precision: 10, scale: 6
     t.decimal "end_latitude", precision: 10, scale: 6
     t.decimal "end_longitude", precision: 10, scale: 6
+    t.boolean "all_day"
+    t.string "title"
     t.index ["trip_id"], name: "index_events_on_trip_id"
   end
 

@@ -1,8 +1,7 @@
 class Event < ApplicationRecord
   belongs_to :trip
-  has_many :traveler_event
-  has_many :travelers, through: :traveler_event
-  # belongs_to :traveler_name, class_name: 'Traveler', foreign_key: "traveler_id"
+  belongs_to :user
+  belongs_to :category
 
   	def self.parseDateTimeString(string)
 		#input format is yyyy-mm-ddTHH:MM

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :categories
   resources :traveler_events
   resources :traveler_trips
   resources :events

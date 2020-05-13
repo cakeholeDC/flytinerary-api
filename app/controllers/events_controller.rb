@@ -4,7 +4,7 @@ class EventsController < ApplicationController
 		events = Event.all
 		render json: events.to_json(
 				except: [:updated_at, :created_at, :trip_id],
-				include: [travelers: { except: [:password_digest, :updated_at, :created_at, :age, :username] }]
+				include: [users: { except: [:password_digest, :updated_at, :created_at, :age, :username] }]
 			)
 	end
 
@@ -12,12 +12,12 @@ class EventsController < ApplicationController
 		event = Event.find(params[:id])
 
 		render json: event.to_json(
-				except: [:traveler_id, :updated_at, :created_at],
+				except: [:user_id, :updated_at, :created_at],
 
 				include: [
-					traveler_name: { only: :name},
+					user_name: { only: :name},
 					trip: {
-						except: [:traveler_id, :updated_at, :created_at],
+						except: [:user_id, :updated_at, :created_at],
 						include: [organizer: { only: :name}]
 						}
 				]
@@ -37,12 +37,12 @@ class EventsController < ApplicationController
 		updateEvent.save
 
 		render json: updateEvent.to_json(
-				except: [:traveler_id, :updated_at, :created_at],
+				except: [:user_id, :updated_at, :created_at],
 
 				include: [
-					traveler_name: { only: :name},
+					user_name: { only: :name},
 					trip: {
-						except: [:traveler_id, :updated_at, :created_at],
+						except: [:user_id, :updated_at, :created_at],
 						include: [organizer: { only: :name}]
 						}
 				]
@@ -60,16 +60,16 @@ class EventsController < ApplicationController
 					start: Time.new(start_date[0], start_date[1], start_date[2], start_date[3], start_date[4]),
 					end: Time.new(end_date[0], end_date[1], end_date[2], end_date[3], end_date[4]),
 					trip_id: params[:trip_id],
-					traveler_id: params[:traveler_id]
+					user_id: params[:user_id]
 					)
 	
 		render json: newEvent.to_json(
-				except: [:traveler_id, :updated_at, :created_at],
+				except: [:user_id, :updated_at, :created_at],
 
 				include: [
-					traveler_name: { only: :name},
+					user_name: { only: :name},
 					trip: {
-						except: [:traveler_id, :updated_at, :created_at],
+						except: [:user_id, :updated_at, :created_at],
 						include: [organizer: { only: :name}]
 						}
 				]

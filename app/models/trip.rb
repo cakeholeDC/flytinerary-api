@@ -1,9 +1,8 @@
 class Trip < ApplicationRecord
   has_many :events, dependent: :destroy
-  has_many :traveler_trips
-  has_many :travelers, through: :traveler_trips
-  # belongs_to :traveler
-  belongs_to :organizer, class_name: "Traveler", foreign_key: "traveler_id"
+  has_many :user_trips
+  has_many :users, through: :user_trips
+  belongs_to :organizer, class_name: "User", foreign_key: "user_id"
 
   def self.parseDateString(string)
 		#input format is yyyy-mm-dd

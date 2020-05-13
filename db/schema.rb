@@ -10,78 +10,74 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_12_191834) do
+ActiveRecord::Schema.define(version: 2020_05_13_161652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "events", force: :cascade do |t|
-    t.string "event_type"
-    t.datetime "start_datetime"
-    t.datetime "end_datetime"
-    t.string "start_location"
-    t.string "end_location"
+    t.string "title"
+    t.datetime "start"
+    t.datetime "end"
+    t.boolean "all_day"
+    t.string "location"
     t.string "company_agency"
     t.string "reservation_number"
     t.text "notes"
     t.bigint "trip_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.decimal "start_latitude", precision: 10, scale: 6
-    t.decimal "start_longitude", precision: 10, scale: 6
-    t.decimal "end_latitude", precision: 10, scale: 6
-    t.decimal "end_longitude", precision: 10, scale: 6
-    t.boolean "all_day"
-    t.string "title"
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
+    t.bigint "category_id", null: false
+    t.index ["category_id"], name: "index_events_on_category_id"
     t.index ["trip_id"], name: "index_events_on_trip_id"
-  end
-
-  create_table "traveler_events", force: :cascade do |t|
-    t.bigint "traveler_id", null: false
-    t.bigint "event_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["event_id"], name: "index_traveler_events_on_event_id"
-    t.index ["traveler_id"], name: "index_traveler_events_on_traveler_id"
-  end
-
-  create_table "traveler_trips", force: :cascade do |t|
-    t.bigint "traveler_id", null: false
-    t.bigint "trip_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["traveler_id"], name: "index_traveler_trips_on_traveler_id"
-    t.index ["trip_id"], name: "index_traveler_trips_on_trip_id"
-  end
-
-  create_table "travelers", force: :cascade do |t|
-    t.string "username"
-    t.string "password_digest"
-    t.string "first_name"
-    t.string "last_name"
-    t.integer "age"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_events_on_user_id"
   end
 
   create_table "trips", force: :cascade do |t|
-    t.string "nickname"
+    t.string "title"
     t.string "destination"
-    t.datetime "start_datetime"
-    t.datetime "end_datetime"
-    t.bigint "traveler_id", null: false
+    t.datetime "start"
+    t.datetime "end"
+    t.bigint "user_id", null: false
     t.string "image"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.decimal "latitude", precision: 10, scale: 6
     t.decimal "longitude", precision: 10, scale: 6
-    t.index ["traveler_id"], name: "index_trips_on_traveler_id"
+    t.index ["user_id"], name: "index_trips_on_user_id"
   end
 
+  create_table "user_trips", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "trip_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["trip_id"], name: "index_user_trips_on_trip_id"
+    t.index ["user_id"], name: "index_user_trips_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "username"
+    t.string "password_digest"
+    t.string "first_name"
+    t.string "last_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "events", "categories"
   add_foreign_key "events", "trips"
-  add_foreign_key "traveler_events", "events"
-  add_foreign_key "traveler_events", "travelers"
-  add_foreign_key "traveler_trips", "travelers"
-  add_foreign_key "traveler_trips", "trips"
-  add_foreign_key "trips", "travelers"
+  add_foreign_key "events", "users"
+  add_foreign_key "trips", "users"
+  add_foreign_key "user_trips", "trips"
+  add_foreign_key "user_trips", "users"
 end

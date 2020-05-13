@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
-  resources :traveler_events
-  resources :traveler_trips
-  resources :events
-  resources :trips
-  resources :travelers
+  resources :categories, only: [:index]
+  # resources :user_trips
+  resources :events, only: [:show, :create, :update]
+  resources :trips, only: [:show, :create, :update]
+  resources :users, only: [:index, :show, :create, :update]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
-  get '/travelers/:id/trips', to: 'travelers#trips'
+  get '/users/:id/trips', to: 'users#trips'
 
   namespace :api do
     namespace :v1 do

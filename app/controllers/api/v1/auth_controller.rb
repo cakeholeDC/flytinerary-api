@@ -1,20 +1,20 @@
 class Api::V1::AuthController < ApplicationController
 
 	def create
-		traveler = Traveler.find_by(username: params[:username])
+		user = User.find_by(username: params[:username])
 
 		# isUserFound?
-		if traveler
+		if user
 			
 			# canUserBeAuthenticated?
-			if traveler.authenticate(params[:password])
+			if user.authenticate(params[:password])
 				
 				# setUserToken
-				token = encode({ traveler_id: traveler.id })
+				token = encode({ user_id: user.id })
 
 				# renderSerializedUserData
 				render json: {
-					currentUser: traveler.to_json(
+					currentUser: user.to_json(
 				            except: [:updated_at, :created_at],
 				            include: [:trips, :events] 
 						),
@@ -41,7 +41,7 @@ class Api::V1::AuthController < ApplicationController
         token = request.headers["Authentication"]
         payload = decode(token)
         
-        user = Traveler.find(payload["traveler_id"])
+        user = User.find(payload["user_id"])
         render json: user.to_json(
             except: [:password_digest, :updated_at, :created_at]
         )

@@ -4,8 +4,10 @@ class Trip < ApplicationRecord
   has_many :users, through: :user_trips
   belongs_to :organizer, class_name: "User", foreign_key: "user_id"
 
-  def self.parseDateString(string)
-		#input format is yyyy-mm-dd
+  def self.parseDateTimeString(string)
+		#input format is yyyy-mm-ddTHH:MM
+		string.gsub!('T','-')
+		string.gsub!(':','-')
 		arr = string.split('-')
 
 		arr.map do |index|

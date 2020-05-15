@@ -14,7 +14,7 @@ class TripsController < ApplicationController
 		trip = Trip.create(
 			title: params[:title], 
 			destination: params[:destination], 
-			start: DateTime.parse(params[:start])
+			start: DateTime.parse(params[:start]),
 			end: DateTime.parse(params[:end]), 
 			organizer: User.find(params[:user_id]), 
 			image: params[:image],
@@ -23,6 +23,7 @@ class TripsController < ApplicationController
 		)
 		
 		trip.users.push(User.find(params[:user_id]))
+		trip.save
 
 		serialize_data(trip)
 	end

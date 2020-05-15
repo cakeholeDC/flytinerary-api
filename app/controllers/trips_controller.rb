@@ -11,20 +11,18 @@ class TripsController < ApplicationController
 	end
 
 	def create
-
-		start_date = Trip.parseDateTimeString(params[:start])
-		end_date = Trip.parseDateTimeString(params[:end])
-
 		trip = Trip.create(
 			title: params[:title], 
 			destination: params[:destination], 
-			start: Time.new(start_date[0], start_date[1], start_date[2]), 
-			end: Time.new(end_date[0], end_date[1], end_date[2]), 
-			user_id: params[:user_id], 
+			start: DateTime.parse(params[:start])
+			end: DateTime.parse(params[:end]), 
+			organizer: User.find(params[:user_id]), 
 			image: params[:image],
 			latitude: params[:latitude],
 			longitude: params[:longitude],
 		)
+		
+		trip.users.push(User.find(params[:user_id]))
 
 		serialize_data(trip)
 	end

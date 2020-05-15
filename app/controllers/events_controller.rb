@@ -24,39 +24,14 @@ class EventsController < ApplicationController
 			)
 	end
 
-	def update
-		# updateEvent = Event.find(params[:id])
-
-		# start_date = Event.parseDateTimeString(params[:start])
-		# end_date = Event.parseDateTimeString(params[:end])
-
-		# updateEvent.event_type = params[:event_type]
-		# updateEvent.description = params[:description]
-		# updateEvent.start = Time.new(start_date[0], start_date[1], start_date[2], start_date[3], start_date[4])
-		# updateEvent.end = Time.new(end_date[0], end_date[1], end_date[2], end_date[3], end_date[4])
-		# updateEvent.save
-
-		# render json: updateEvent.to_json(
-		# 		except: [:user_id, :updated_at, :created_at],
-
-		# 		include: [
-		# 			user_name: { only: :name},
-		# 			trip: {
-		# 				except: [:user_id, :updated_at, :created_at],
-		# 				include: [organizer: { only: :name}]
-		# 				}
-		# 		]
-		# 	)
-	end
-
 	def create
-		start_datetime = Event.parseDateTimeString(params[:start]).join(',')
-		end_datetime = Event.parseDateTimeString(params[:end]).join(',')
-		
+		# eventStart = Event.parseDateTimeString(params[:start])
+		# eventEnd = Event.parseDateTimeString(params[:end])
+		# byebug
 		newEvent = Event.create(
 			title: params[:title],
-			start: Time.new(start_datetime),
-			end: Time.new(end_datetime),
+			start: DateTime.parse(params[:start]),
+			end: DateTime.parse(params[:end]),
 			all_day: params[:all_day],
 			location: params[:location],
 			latitude: params[:latitude],
@@ -68,6 +43,7 @@ class EventsController < ApplicationController
 			category_id: params[:category],
 			user_id: params[:user],
 		)
+		
 		render json: newEvent
 	end
 

@@ -14,8 +14,8 @@ class TripsController < ApplicationController
 		trip = Trip.create(
 			title: params[:title], 
 			destination: params[:destination], 
-			start: DateTime.parse(params[:start]),
-			end: DateTime.parse(params[:end]), 
+			start: Date.parse(params[:start]),
+			end: Date.parse(params[:end]), 
 			organizer: User.find(params[:user_id]), 
 			image: params[:image],
 			latitude: params[:latitude],
@@ -30,18 +30,17 @@ class TripsController < ApplicationController
 
 	def update
 		trip = Trip.find(params[:id])
-
-		start_date = Trip.parseDateTimeString(params[:start])
-		end_date = Trip.parseDateTimeString(params[:end])
-
-		trip.nickname = params[:nickname]
-		trip.destination = params[:destination]
-		trip.start_date = Time.new(start_date[0], start_date[1], start_date[2]) 
-		trip.end_date = Time.new(end_date[0], end_date[1], end_date[2])
-		trip.user_id = params[:user_id]
-		trip.image = params[:image]
-
-		trip.save
+		
+		trip.update(
+			title: params[:title], 
+			destination: params[:destination], 
+			start: Date.parse(params[:start]),
+			end: Date.parse(params[:end]), 
+			organizer: User.find(params[:user_id]), 
+			image: params[:image],
+			latitude: params[:latitude],
+			longitude: params[:longitude],
+		)
 
 		serialize_data(trip)
 			

@@ -35,9 +35,7 @@ class UsersController < ApplicationController
 			password: params[:password]
 			)
 
-		render json: user.to_json(
-			except: [:updated_at, :created_at]
-			)
+		serialize_data(user)
 	end
 
 	private
@@ -45,7 +43,6 @@ class UsersController < ApplicationController
 	def serialize_data(data)
 		render json: data.to_json(
 			except: [:updated_at, :created_at, :password_digest],
-			# include: [:trips, :events] 
 		)
 	end
 end
